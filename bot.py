@@ -1,5 +1,5 @@
 """
-SEO Job Scraper Bot v5.0
+full-stack Job Scraper Bot v5.0
 ========================
 منابع رایگان:
   • Remotive.com
@@ -142,7 +142,7 @@ def load_prompt_template() -> str:
                     return content
     except Exception as e:
         log.warning(f"Could not load prompt.txt: {e}")
-    return "Write a short, professional cover letter for the '{title}' position at '{company}'. Focus on my technical SEO skills. Job link: {url}"
+    return "Write a short, professional cover letter for the '{title}' position at '{company}'. Focus on my technical full-stack skills. Job link: {url}"
 
 # ── Seen Jobs Cache ─────────────────────────────────────────────────────────
 
@@ -197,9 +197,9 @@ def calculate_fit_score(job: dict) -> tuple:
 
 def fetch_remotive() -> list:
     endpoints = [
-        "https://remotive.com/api/remote-jobs?category=seo&limit=20",
-        "https://remotive.com/api/remote-jobs?search=technical+seo&limit=10",
-        "https://remotive.com/api/remote-jobs?search=seo+content&limit=10",
+        "https://remotive.com/api/remote-jobs?category=full-stack&limit=20",
+        "https://remotive.com/api/remote-jobs?search=technical+full-stack&limit=10",
+        "https://remotive.com/api/remote-jobs?search=full-stack+content&limit=10",
     ]
     results = []
     for url in endpoints:
@@ -228,7 +228,7 @@ def fetch_remotive() -> list:
 
 def fetch_jobicy() -> list:
     endpoints = [
-        "https://jobicy.com/api/v2/remote-jobs?tag=seo&count=20",
+        "https://jobicy.com/api/v2/remote-jobs?tag=full-stack&count=20",
         "https://jobicy.com/api/v2/remote-jobs?tag=content-marketing&count=15",
         "https://jobicy.com/api/v2/remote-jobs?tag=wordpress&count=10",
     ]
@@ -262,7 +262,7 @@ def fetch_jobicy() -> list:
     return results
 
 def fetch_arbeitnow() -> list:
-    SEO_TERMS = ["seo", "search engine optimization", "content editor", "technical seo", "wordpress seo"]
+    SEO_TERMS = ["full-stack", "back-end", "laravel", "php", "node.js", "nestjs"]
     try:
         resp = requests.get("https://arbeitnow.com/api/job-board-api", timeout=15, headers={"User-Agent": "Mozilla/5.0"})
         resp.raise_for_status()
@@ -297,7 +297,7 @@ def fetch_adzuna() -> list:
     if not ADZUNA_APP_ID or not ADZUNA_API_KEY:
         return []
     results = []
-    for q in ["seo", "technical seo", "seo specialist"]:
+    for q in ["full-stack", "back-end", "php", "laravel", "node", "nest"]:
         try:
             resp = requests.get(
                 f"https://api.adzuna.com/v1/api/jobs/us/search/1",
@@ -328,11 +328,11 @@ def fetch_adzuna() -> list:
     return results
 
 def fetch_findwork() -> list:
-    SEO_TERMS = ["seo", "search engine", "content editor", "wordpress", "technical seo", "organic", "keyword"]
+    SEO_TERMS = ["full-stack", "back-end", "laravel", "php", "node.js", "nestjs"]
     try:
         resp = requests.get(
             "https://findwork.dev/api/jobs/",
-            params={"search": "seo", "remote": "true", "order_by": "-date_posted"},
+            params={"search": "full-stack", "remote": "true", "order_by": "-date_posted"},
             headers={"User-Agent": "Mozilla/5.0 (compatible; SEOJobBot/5.0)"},
             timeout=15,
         )
@@ -723,7 +723,7 @@ def main() -> None:
         return
 
     send_telegram(
-        f"🤖 <b>New SEO Jobs</b>\n"
+        f"🤖 <b>New full-stack / back-end Jobs</b>\n"
         f"📅 {now}\n\n"
         f"✅ <b>{len(qualified)}</b> jobs (sorted by fit)\n"
         f"⛔ {stats['blacklisted']} filtered | "
